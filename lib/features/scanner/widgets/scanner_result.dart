@@ -182,29 +182,44 @@ class ScannerResultWidget extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           // Action buttons
-          Row(
+          Column(
             children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: onRescan,
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Rescan'),
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: onRescan,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Scan Another'),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        context.go('/cardDetail/${scanResult.cardId}');
+                      },
+                      icon: const Icon(Icons.info_outline),
+                      label: const Text('View Details'),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                flex: 2,
+              SizedBox(height: 12.h),
+              SizedBox(
+                width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: scanResult.addedToCollection
                       ? null
                       : () => onAddToCollection?.call(scanResult.cardId),
                   icon: const Icon(Icons.add),
-                  label: Text(scanResult.addedToCollection ? 'Added' : 'Add to Collection'),
+                  label: Text(scanResult.addedToCollection ? 'Already in Collection' : 'Add to Collection'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: scanResult.addedToCollection
                         ? Colors.grey
                         : Theme.of(context).primaryColor,
                     foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
                   ),
                 ),
               ),
