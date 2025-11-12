@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import '../../../shared/models/card.dart';
+import '../../../shared/models/collection.dart';
+import '../../../app/constants/app_constants.dart';
+import '../../../services/image_service.dart';
+import '../../../features/card_detail/providers/card_detail_provider.dart';
 
 class CardList extends StatelessWidget {
   final List<Card> cards;
