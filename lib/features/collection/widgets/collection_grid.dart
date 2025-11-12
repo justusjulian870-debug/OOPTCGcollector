@@ -62,7 +62,7 @@ class CollectionGrid extends ConsumerWidget {
   }
 }
 
-class CollectionCardWidget extends StatelessWidget {
+class CollectionCardWidget extends ConsumerWidget {
   final CollectionItem collectionItem;
   final CardPrice? price;
   final VoidCallback? onTap;
