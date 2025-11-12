@@ -79,14 +79,16 @@ class CollectionCardWidget extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cardDetailState = ref.watch(cardDetailProvider(collectionItem.cardId));
+
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppConstants.borderRadius),
         onTap: onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,42 +110,50 @@ class CollectionCardWidget extends ConsumerWidget {
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12),
                       ),
-                      child: Container(
-                        color: Colors.grey[300],
-                        child: const Icon(
-                          Icons.image,
-                          size: 48,
-                          color: Colors.grey,
+                      child: cardDetailState.when(
+                        data: (cardDetail) => cardDetail.card.buildThumbnailImage(),
+                        loading: () => Container(
+                          color: Colors.grey[200],
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                        error: (_, __) => Container(
+                          color: Colors.grey[200],
+                          child: const Icon(
+                            Icons.image_not_supported,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ),
                   ),
                   if (collectionItem.favorite)
-                    const Positioned(
-                      top: 8,
-                      right: 8,
+                    Positioned(
+                      top: 8.w,
+                      right: 8.w,
                       child: Icon(
                         Icons.favorite,
                         color: Colors.red,
-                        size: 24,
+                        size: 24.w,
                       ),
                     ),
                   if (collectionItem.quantity > 1)
                     Positioned(
-                      top: 8,
-                      left: 8,
+                      top: 8.w,
+                      left: 8.w,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(
                           'x${collectionItem.quantity}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 12,
+                            fontSize: 12.sp,
                           ),
                         ),
                       ),
