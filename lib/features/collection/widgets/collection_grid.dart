@@ -172,15 +172,48 @@ class CollectionCardWidget extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        cardDetailState.when(
+                          data: (cardDetail) => Text(
+                            cardDetail.card.name,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          loading: () => Text(
+                            collectionItem.cardId,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[600],
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          error: (_, __) => Text(
+                            collectionItem.cardId,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[600],
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
                         Text(
                           collectionItem.cardId,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: TextStyle(
+                            fontSize: 10.sp,
+                            color: Colors.grey[600],
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         if (price != null)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
