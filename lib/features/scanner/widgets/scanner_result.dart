@@ -96,37 +96,25 @@ class ScannerResultWidget extends StatelessWidget {
             children: [
               // Card image
               Container(
-                width: 100,
-                height: 140,
+                width: 100.w,
+                height: 140.h,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(AppConstants.borderRadius / 1.5),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: scanResult.imageUrl != null
-                      ? CachedNetworkImage(
-                          imageUrl: scanResult.imageUrl!,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: Colors.grey[300],
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                  borderRadius: BorderRadius.circular(AppConstants.borderRadius / 1.5),
+                  child: scanResult.card != null
+                      ? scanResult.card!.buildThumbnailImage(size: 100)
+                      : Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(AppConstants.borderRadius / 1.5),
                           ),
-                          errorWidget: (context, url, error) => Container(
-                            color: Colors.grey[300],
-                            child: const Icon(
-                              Icons.image_not_supported,
-                              size: 32,
-                              color: Colors.grey,
-                            ),
+                          child: const Icon(
+                            Icons.image,
+                            size: 48,
+                            color: Colors.grey,
                           ),
-                        )
-                      : const Icon(
-                          Icons.image,
-                          size: 48,
-                          color: Colors.grey,
                         ),
                 ),
               ),
