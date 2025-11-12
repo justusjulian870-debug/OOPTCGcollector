@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../app/constants/app_constants.dart';
 import '../../../../shared/models/card.dart';
 import '../../../../shared/models/collection.dart';
-import '../../../../data/database/database_service.dart';
-import '../../../../data/api/pricing_api_service.dart';
+import '../../../../services/image_service.dart';
 import '../providers/card_detail_provider.dart';
 
 class CardDetailScreen extends ConsumerStatefulWidget {
