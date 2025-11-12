@@ -8,7 +8,7 @@ import '../../../services/image_service.dart';
 import '../../../app/constants/app_constants.dart';
 import '../../../features/card_detail/providers/card_detail_provider.dart';
 
-class CollectionGrid extends StatelessWidget {
+class CollectionGrid extends ConsumerWidget {
   final List<CollectionItem> collectionItems;
   final Map<String, CardPrice?> prices;
   final bool isLoading;
@@ -27,14 +27,14 @@ class CollectionGrid extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GridView.builder(
-      padding: const EdgeInsets.all(16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      padding: EdgeInsets.all(AppConstants.defaultPadding),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: _getCrossAxisCount(context),
         childAspectRatio: 0.8,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        crossAxisSpacing: AppConstants.cardSpacing * 1.5,
+        mainAxisSpacing: AppConstants.cardSpacing * 1.5,
       ),
       itemCount: collectionItems.length,
       itemBuilder: (context, index) {
@@ -42,12 +42,23 @@ class CollectionGrid extends StatelessWidget {
         return CollectionCardWidget(
           collectionItem: item,
           price: prices[item.cardId],
-          onTap: () => onCardTap?.call(item.cardId),
+          onTap: () => context.go('/cardDetail/${item.cardId}'),
           onQuantityChanged: (quantity) => onQuantityChanged?.call(item.cardId, quantity),
           onFavoriteToggle: () => onFavoriteToggle?.call(item.cardId),
         );
       },
     );
+  }
+
+  int _getCrossAxisCount(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width >= 768) {
+      return 3; // Tablet
+    } else if (width >= 600) {
+      return 2; // Large phone
+    } else {
+      return 2; // Phone
+    }
   }
 }
 
