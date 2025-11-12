@@ -40,6 +40,12 @@ class AppConstants {
   static const double cardSpacing = 8.0;
   static const double borderRadius = 12.0;
 
+  // Search
+  static const Duration searchDebounceDelay = Duration(milliseconds: 300);
+  static const int maxConcurrentImageLoads = 3;
+  static const int thumbnailCacheSizeKB = 50;
+  static const bool useMockPrices = true; // For future upgrade toggle
+
   // Animation durations
   static const Duration shortAnimation = Duration(milliseconds: 200);
   static const Duration mediumAnimation = Duration(milliseconds: 300);
