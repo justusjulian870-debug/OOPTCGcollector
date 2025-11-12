@@ -38,6 +38,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             name: AppConstants.settingsRouteName,
             builder: (context, state) => const SettingsScreen(),
           ),
+          GoRoute(
+            path: '${AppConstants.cardDetailRoute}/:cardId',
+            name: AppConstants.cardDetailRouteName,
+            builder: (context, state) {
+              final cardId = state.pathParameters['cardId']!;
+              return CardDetailScreen(cardId: cardId);
+            },
+          ),
         ],
       ),
     ],
