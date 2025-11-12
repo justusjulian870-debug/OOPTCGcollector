@@ -56,7 +56,7 @@ class CardDetailNotifier extends StateNotifier<AsyncValue<CardDetailData>> {
       final collectionItem = await _databaseService.getCollectionItem(cardId);
 
       // Get pricing information
-      final price = await _pricingApiService.getMockPrice(cardId);
+      final price = await _pricingApiService.getMockPriceForCard(card);
 
       state = AsyncValue.data(CardDetailData(
         card: card,
