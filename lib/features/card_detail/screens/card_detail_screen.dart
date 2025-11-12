@@ -185,45 +185,11 @@ class _CardDetailScreenState extends ConsumerState<CardDetailScreen> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-          child: card.thumbnailUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: card.thumbnailUrl!,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: Colors.grey[200],
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => _buildImagePlaceholder(card),
-                )
-              : _buildImagePlaceholder(card),
+          child: card.buildFullImage(
+            width: 200.w,
+            height: 280.h,
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildImagePlaceholder(Card card) {
-    return Container(
-      color: Colors.grey[200],
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.image_not_supported,
-            size: 48.w,
-            color: Colors.grey[400],
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            card.id,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[600],
-            ),
-          ),
-        ],
       ),
     );
   }
