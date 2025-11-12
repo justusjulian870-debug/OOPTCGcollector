@@ -8,7 +8,7 @@ import '../../../app/constants/app_constants.dart';
 import '../../../services/image_service.dart';
 import '../../../features/card_detail/providers/card_detail_provider.dart';
 
-class CardList extends StatelessWidget {
+class CardList extends ConsumerWidget {
   final List<Card> cards;
   final bool isLoading;
   final VoidCallback? onLoadMore;
@@ -21,7 +21,7 @@ class CardList extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return NotificationListener<ScrollNotification>(
       onNotification: (scrollNotification) {
         if (scrollNotification is ScrollEndNotification &&
@@ -33,12 +33,12 @@ class CardList extends StatelessWidget {
         return false;
       },
       child: GridView.builder(
-        padding: const EdgeInsets.all(16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        padding: EdgeInsets.all(AppConstants.defaultPadding),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: _getCrossAxisCount(context),
           childAspectRatio: 0.72,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
+          crossAxisSpacing: AppConstants.cardSpacing * 1.5,
+          mainAxisSpacing: AppConstants.cardSpacing * 1.5,
         ),
         itemCount: cards.length + (isLoading ? 1 : 0),
         itemBuilder: (context, index) {
@@ -51,6 +51,17 @@ class CardList extends StatelessWidget {
         },
       ),
     );
+  }
+
+  int _getCrossAxisCount(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width >= 768) {
+      return 3; // Tablet
+    } else if (width >= 600) {
+      return 2; // Large phone
+    } else {
+      return 2; // Phone
+    }
   }
 }
 
