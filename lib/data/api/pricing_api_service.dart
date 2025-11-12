@@ -147,21 +147,72 @@ class PricingApiService {
   }
 
   // Mock pricing service for development
-  Future<CardPrice?> getMockPrice(String cardId) async {
+  Future<CardPrice?> getMockPrice(String cardId, {String? rarity}) async {
     // Simulate API delay
     await Future.delayed(const Duration(milliseconds: 200));
 
-    // Generate realistic-looking mock prices based on card ID
+    // Generate realistic prices based on rarity as specified in planning
+    double basePrice;
+    double maxPrice;
+
+    if (rarity != null) {
+      switch (rarity.toUpperCase()) {
+        case 'C': // Common
+          basePrice = 1.0;
+          maxPrice = 5.0;
+          break;
+        case 'U': // Uncommon
+          basePrice = 3.0;
+          maxPrice = 8.0;
+          break;
+        case 'R': // Rare
+          basePrice = 8.0;
+          maxPrice = 20.0;
+          break;
+        case 'SR': // Super Rare
+          basePrice = 20.0;
+          maxPrice = 60.0;
+          break;
+        case 'SEC': // Secret Rare
+          basePrice = 60.0;
+          maxPrice = 200.0;
+          break;
+        case 'L': // Leader
+        case 'SP': // Special
+          basePrice = 2.0;
+          maxPrice = 15.0;
+          break;
+        default:
+          basePrice = 1.0;
+          maxPrice = 50.0;
+      }
+    } else {
+      // Fallback to ID-based pricing if rarity unknown
+      basePrice = 1.0;
+      maxPrice = 50.0;
+    }
+
+    // Add random variation (±30% for realistic prices)
     final hash = cardId.hashCode;
-    final basePrice = 1.0 + (hash.abs() % 500) / 10.0; // 1-50 EUR range
+    final randomFactor = 0.7 + (hash.abs() % 60) / 100.0; // 0.7 to 1.3
+    final price = basePrice + (hash.abs() % (maxPrice - basePrice).toInt()) * randomFactor;
+
+    // Some trending cards get premium pricing
+    final isTrending = (hash.abs() % 10) == 0; // 10% chance
+    final finalPrice = isTrending ? price * 1.5 : price;
 
     return CardPrice(
       cardId: cardId,
-      priceEur: basePrice,
-      priceUsd: basePrice * 1.1, // EUR to USD conversion
-      dateRecorded: DateTime.now(),
+      priceEur: double.parse(finalPrice.toStringAsFixed(2)),
+      priceUsd: double.parse((finalPrice * 1.1).toStringAsFixed(2)), // EUR to USD conversion
+      dateRecorded: DateTime.now().subtract(Duration(hours: hash.abs() % 24)), // Random timestamp within 24h
       source: 'mock',
     );
+  }
+
+  // Enhanced mock price method that accepts Card object
+  Future<CardPrice?> getMockPriceForCard(Card card) async {
+    return await getMockPrice(card.id, rarity: card.rarity);
   }
 
   void dispose() {
