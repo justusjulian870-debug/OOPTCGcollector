@@ -7,6 +7,7 @@ import '../../features/collection/screens/collection_screen.dart';
 import '../../features/scanner/screens/scanner_screen.dart';
 import '../../features/search/screens/search_screen.dart';
 import '../../features/settings/screens/settings_screen.dart';
+import '../../features/card_detail/screens/card_detail_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
